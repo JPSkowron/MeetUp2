@@ -10,6 +10,7 @@
 #import "EventDetailViewController.h"
 #import "ViewController.h"
 
+
 @interface ViewController () <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *searchBar;
@@ -24,28 +25,17 @@
     [super viewDidLoad];
 
     [self performSearchWithKeyword:@"mobile"];
-
+}
+-(void)setDataArray:(NSArray *)dataArray {
+    _dataArray = dataArray;
+    [self.tableView reloadData];
 }
 
 - (void)performSearchWithKeyword:(NSString *)keyword
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.meetup.com/2/open_events.json?zip=60604&text=%@&time=,1w&key=4b6a576833454113112e241936657e47",keyword]];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               
-                               NSArray *jsonArray = [[NSJSONSerialization JSONObjectWithData:data
-                                                                                     options:NSJSONReadingAllowFragments
-                                                                                       error:nil] objectForKey:@"results"];
-                               
-                               
-                               self.dataArray = [Event eventsFromArray:jsonArray];
-                               [self.tableView reloadData];
-                           }];
-
+    [Event retrieveMeetUpsWithKeyword:(NSString *)keyword andCompletion:^(NSArray *events) {
+        self.dataArray  = events;
+    }];
 }
 
 #pragma mark - Tableview Methods
@@ -60,7 +50,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventCell"];
     
     Event *e = self.dataArray[indexPath.row];
-    
+
     cell.textLabel.text = e.name;
     cell.detailTextLabel.text = e.address;
     if (e.photoURL)

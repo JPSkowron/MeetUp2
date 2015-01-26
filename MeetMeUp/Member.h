@@ -20,5 +20,7 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
++ (void)retrieveMeetUpsWithKeyword:(NSString *)memberID andCompletion:(void(^)(Member *))complete;
+
 
 @end

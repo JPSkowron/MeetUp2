@@ -24,4 +24,6 @@
 + (NSArray *)eventsFromArray:(NSArray *)incomingArray;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
++(void)retrieveMeetUpsWithKeyword:(NSString*)keyword andCompletion:(void(^)(NSArray *))complete;
+
 @end
