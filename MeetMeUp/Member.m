@@ -21,7 +21,7 @@
         
         self.photoURL = [NSURL URLWithString:dictionary[@"photo"][@"photo_link"]];
         
-        
+        self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dictionary[@"photo"][@"photo_link"]]]];
     }
     return self;
 }
@@ -42,6 +42,7 @@
                            }];
 
 }
+
 
 
 @end

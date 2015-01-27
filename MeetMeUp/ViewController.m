@@ -55,19 +55,22 @@
     cell.detailTextLabel.text = e.address;
     if (e.photoURL)
     {
-        NSURLRequest *imageReq = [NSURLRequest requestWithURL:e.photoURL];
-        
-        [NSURLConnection sendAsynchronousRequest:imageReq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-           dispatch_async(dispatch_get_main_queue(), ^{
-               if (!connectionError) {
-                   [cell.imageView setImage:[UIImage imageWithData:data]];
-                   [cell layoutSubviews];
-               }
-           });
+        [cell.imageView setImage:e.image];
+        [cell layoutSubviews];
 
+//        NSURLRequest *imageReq = [NSURLRequest requestWithURL:e.photoURL];
+//        
+//        [NSURLConnection sendAsynchronousRequest:imageReq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//           dispatch_async(dispatch_get_main_queue(), ^{
+//               if (!connectionError) {
+//                   [cell.imageView setImage:[UIImage imageWithData:data]];
+//                   [cell layoutSubviews];
+//               }
+//           });
+//
+//
+//        }];
 
-        }];
-        
         
     }else
     {

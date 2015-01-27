@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface Member : NSObject
 
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) NSURL *photoURL;
+@property (nonatomic, strong) UIImage *image;
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

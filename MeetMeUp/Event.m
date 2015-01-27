@@ -27,6 +27,8 @@
         self.address = dictionary[@"venue"][@"address"];
         self.eventURL = [NSURL URLWithString:dictionary[@"event_url"]];
         self.photoURL = [NSURL URLWithString:dictionary[@"photo_url"]];
+
+        self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[dictionary objectForKey:@"photo_url"]]]];
     }
     return self;
 }
@@ -68,6 +70,27 @@
 
             }
     }];
+
+
+}
+- (void)loadCommentData:(Event *)eventID andCompletion:(void(^)(NSArray *))complete;{
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat: @"https://api.meetup.com/2/event_comments?&sign=true&photo-host=public&event_id=%@&page=20&key=3803e4f78691614d7e70111a25e42", eventID.eventID]];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+                               NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+
+                               NSArray *jsonArray = [dict objectForKey:@"results"];
+                               jsonArray = [Comment objectsFromArray:jsonArray];
+                               complete(jsonArray);
+
+
+                           }];
 
 
 }
